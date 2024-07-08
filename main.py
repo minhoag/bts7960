@@ -1,14 +1,14 @@
 import RPi.GPIO as GPIO  # sudo apt-get install python-rpi.gpio
 import time
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
+# Pin Definitions
+RPWM = 18  # Forward PWM
+LPWM = 19  # Backward PWM
+R_EN = 20  # Forward Enable
+L_EN = 21  # Backward Enable
 
-R_EN = 21
-L_EN = 22
-RPWM = 23
-LPWM = 24
-
+# Pin Setup
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(RPWM, GPIO.OUT)
 GPIO.setup(LPWM, GPIO.OUT)
 GPIO.setup(R_EN, GPIO.OUT)
