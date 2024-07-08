@@ -17,13 +17,13 @@ GPIO.setup(L_EN, GPIO.OUT)
 # Initialize PWM
 pwm_forward = GPIO.PWM(RPWM, 1000)  # Set frequency to 1kHz
 pwm_backward = GPIO.PWM(LPWM, 1000)  # Set frequency to 1kHz
+GPIO.output(R_EN, GPIO.HIGH)
+GPIO.output(L_EN, GPIO.LOW)
 
 print('Running..')
 
 try:
     while True:
-        GPIO.output(R_EN, GPIO.HIGH)
-        GPIO.output(L_EN, GPIO.LOW)
         pwm_forward.start(100)
 except KeyboardInterrupt:
     pwm_forward.stop()
