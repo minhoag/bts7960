@@ -17,10 +17,7 @@ GPIO.setup(R_EN, GPIO.OUT)
 
 # Enable "Left" and "Right" movement on the HBRidge
 GPIO.output(R_EN, True)
-GPIO.output(L_EN, True)
-
 rpwm= GPIO.PWM(RPWM, 100)
-lpwm= GPIO.PWM(LPWM, 100)
 
 try:
     while True:
