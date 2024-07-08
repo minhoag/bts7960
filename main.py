@@ -15,8 +15,8 @@ GPIO.setup(R_EN, GPIO.OUT)
 GPIO.setup(L_EN, GPIO.OUT)
 
 # Initialize PWM
-pwm_forward = GPIO.PWM(RPWM, 1000)  # Set frequency to 1kHz
-pwm_backward = GPIO.PWM(LPWM, 1000)  # Set frequency to 1kHz
+pwm_forward = GPIO.PWM(RPWM, 2000)  # Set frequency to 1kHz
+pwm_backward = GPIO.PWM(LPWM, 2000)  # Set frequency to 1kHz
 
 print('Running..')
 
