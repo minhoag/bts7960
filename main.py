@@ -1,37 +1,40 @@
 import RPi.GPIO as GPIO  # sudo apt-get install python-rpi.gpio
 
-class Driver:
-    def __init__(self):
-        GPIO.setmode(GPIO.BOARD)
-        self.R_EN = 21
-        self.L_EN = 22
-        self.RPWM = 23
-        self.LPWM = 24
-        GPIO.setup(self.R_EN, GPIO.OUT)
-        GPIO.setup(self.RPWM, GPIO.OUT)
-        GPIO.setup(self.L_EN, GPIO.OUT)
-        GPIO.setup(self.LPWM, GPIO.OUT)
-        GPIO.output(self.R_EN, True)
-        GPIO.output(self.L_EN, True)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
-    def neutral(self):
-        GPIO.output(self.RPWM, False)  # Stop turning right
-        GPIO.output(self.LPWM, False)  # stop turning left
+R_EN = 21
+L_EN = 22
+RPWM = 23
+LPWM = 24
+# Set all of our PINS to output
+GPIO.setup(RPWM, GPIO.OUT)
+GPIO.setup(LPWM, GPIO.OUT)
+GPIO.setup(L_EN, GPIO.OUT)
+GPIO.setup(R_EN, GPIO.OUT)
 
-    def right(self):
-        GPIO.output(self.LPWM, False)  # stop turning left
-        GPIO.output(self.RPWM, True)  # start turning right
 
-    def left(self):
-        GPIO.output(self.RPWM, False)  # Stop turning right
-        GPIO.output(self.LPWM, True)  # start turning left
+# Enable "Left" and "Right" movement on the HBRidge
+GPIO.output(R_EN, True)
+GPIO.output(L_EN, True)
 
-    def cleanup(self):
-        GPIO.cleanup()
+rpwm= GPIO.PWM(RPWM, 100)
+lpwm= GPIO.PWM(LPWM, 100)
 
-if __name__ == "__main__":
-  driver = Driver()
-  driver.right()  # turns right
-  driver.left()  # turns left
-  driver.neutral()  # stops turning
-  driver.cleanup()
+rpwm.ChangeDutyCycle(0)
+rpwm.start(0)
+
+while 1:
+
+  for x in range(100):
+    print("Speeding up " + str(x))
+    rpwm.ChangeDutyCycle(x)
+    time.sleep(0.25)
+
+  time.sleep(5)
+
+  for x in range(100):
+
+    print("Slowing down " + str(x))
+    rpwm.ChangeDutyCycle(100-x)
+    time.sleep(0.25)
