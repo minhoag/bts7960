@@ -24,3 +24,11 @@ time.sleep(2)
 GPIO.output(RPWM, GPIO.LOW)
 
 print('Running..')
+
+try:
+    while True:
+        pwm_forward.start(100)
+except KeyboardInterrupt:
+    pwm_forward.stop()
+    GPIO.cleanup()
+    pass
