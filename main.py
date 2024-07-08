@@ -27,5 +27,6 @@ try:
         rpwm.start(100)  # duty cycle of 100%
 except KeyboardInterrupt:
     pass
+
 rpwm.stop()
 GPIO.cleanup()
