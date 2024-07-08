@@ -11,7 +11,6 @@ LPWM = 24
 # Set all of our PINS to output
 GPIO.setup(RPWM, GPIO.OUT)
 GPIO.setup(LPWM, GPIO.OUT)
-GPIO.setup(L_EN, GPIO.OUT)
 GPIO.setup(R_EN, GPIO.OUT)
 
 
@@ -23,6 +22,7 @@ try:
     while True:
         rpwm.start(100)  # duty cycle of 100%
 except KeyboardInterrupt:
+    print("Key Interrupted")
     pass
 
 rpwm.stop()
