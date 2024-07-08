@@ -4,12 +4,12 @@ import time
 GPIO.setwarnings(False)
 
 
-RPWM = 26  # GPIO pin 19 to the RPWM on the BTS7960
-LPWM = 19  # GPIO pin 26 to the LPWM on the BTS7960
+RPWM = 19  # GPIO pin 19 = SPI0_MOSI to the RPWM on the BTS7960
+LPWM = 26  # GPIO pin 26 = SPI_CE1_N to the LPWM on the BTS7960
 
 # For enabling "Left" and "Right" movement
-L_EN = 6  # connect GPIO pin 20 to L_EN on the BTS7960
-R_EN = 13  # connect GPIO pin 21 to R_EN on the BTS7960
+L_EN = 20  # connect GPIO pin 20 = GND to L_EN on the BTS7960
+R_EN = 21  # connect GPIO pin 21 = SPI0_MISO to R_EN on the BTS7960
 
 
 # Set all of our PINS to output
