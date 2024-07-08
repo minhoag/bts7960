@@ -9,8 +9,6 @@ L_EN = 22
 RPWM = 23
 LPWM = 24
 
-# Pin Setup
-GPIO.setmode(GPIO.BCM)
 GPIO.setup(RPWM, GPIO.OUT)
 GPIO.setup(LPWM, GPIO.OUT)
 GPIO.setup(R_EN, GPIO.OUT)
