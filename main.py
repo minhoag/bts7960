@@ -1,48 +1,37 @@
-import RPi.GPIO as GPIO
-import time
+import RPi.GPIO as GPIO  # sudo apt-get install python-rpi.gpio
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+class Driver:
+    def __init__(self):
+        GPIO.setmode(GPIO.BOARD)
+        self.R_EN = 21
+        self.L_EN = 22
+        self.RPWM = 23
+        self.LPWM = 24
+        GPIO.setup(self.R_EN, GPIO.OUT)
+        GPIO.setup(self.RPWM, GPIO.OUT)
+        GPIO.setup(self.L_EN, GPIO.OUT)
+        GPIO.setup(self.LPWM, GPIO.OUT)
+        GPIO.output(self.R_EN, True)
+        GPIO.output(self.L_EN, True)
 
+    def neutral(self):
+        GPIO.output(self.RPWM, False)  # Stop turning right
+        GPIO.output(self.LPWM, False)  # stop turning left
 
-RPWM = 19  # GPIO pin 19 = SPI0_MOSI to the RPWM on the BTS7960
-LPWM = 26  # GPIO pin 26 = SPI_CE1_N to the LPWM on the BTS7960
+    def right(self):
+        GPIO.output(self.LPWM, False)  # stop turning left
+        GPIO.output(self.RPWM, True)  # start turning right
 
-# For enabling "Left" and "Right" movement
-L_EN = 20  # connect GPIO pin 20 = GND to L_EN on the BTS7960
-R_EN = 21  # connect GPIO pin 21 = SPI0_MISO to R_EN on the BTS7960
+    def left(self):
+        GPIO.output(self.RPWM, False)  # Stop turning right
+        GPIO.output(self.LPWM, True)  # start turning left
 
+    def cleanup(self):
+        GPIO.cleanup()
 
-# Set all of our PINS to output
-GPIO.setup(RPWM, GPIO.OUT)
-GPIO.setup(LPWM, GPIO.OUT)
-GPIO.setup(L_EN, GPIO.OUT)
-GPIO.setup(R_EN, GPIO.OUT)
-
-
-# Enable "Left" and "Right" movement on the HBRidge
-GPIO.output(R_EN, True)
-GPIO.output(L_EN, True)
-
-
-rpwm= GPIO.PWM(RPWM, 100)
-lpwm= GPIO.PWM(LPWM, 100)
-
-rpwm.ChangeDutyCycle(0)
-
-rpwm.start(0)
-
-while 1:
-
-  for x in range(100):
-    print("Speeding up " + str(x))
-    rpwm.ChangeDutyCycle(x)
-    time.sleep(0.25)
-
-  time.sleep(5)
-
-  for x in range(100):
-
-    print("Slowing down " + str(x))
-    rpwm.ChangeDutyCycle(100-x)
-    time.sleep(0.25)
+if __name__ == "__main__":
+  driver = Driver()
+  driver.right()  # turns right
+  driver.left()  # turns left
+  driver.neutral()  # stops turning
+  driver.cleanup()
