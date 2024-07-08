@@ -12,17 +12,18 @@ LPWM = 24
 GPIO.setup(RPWM, GPIO.OUT)
 GPIO.setup(LPWM, GPIO.OUT)
 GPIO.setup(R_EN, GPIO.OUT)
+GPIO.setup(L_EN, GPIO.OUT)
 
 
 # Enable "Left" and "Right" movement on the HBRidge
 GPIO.output(R_EN, True)
-rpwm= GPIO.PWM(RPWM, 100)
+rpwm= GPIO.PWM(RPWM, 1000)
 
 print("Running...")
 
 try:
     while True:
-        rpwm.start(100)  # duty cycle of 100%
+        rpwm.start(1000)  # duty cycle of 100%
 except KeyboardInterrupt:
     print("Key Interrupted")
     pass
