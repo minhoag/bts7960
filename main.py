@@ -34,7 +34,6 @@ while 1:
   time.sleep(5)
 
   for x in range(100):
-
     print("Slowing down " + str(x))
     rpwm.ChangeDutyCycle(100-x)
     time.sleep(0.25)
