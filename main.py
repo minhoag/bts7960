@@ -22,19 +22,10 @@ GPIO.output(L_EN, True)
 rpwm= GPIO.PWM(RPWM, 100)
 lpwm= GPIO.PWM(LPWM, 100)
 
-rpwm.ChangeDutyCycle(0)
-rpwm.start(0)
-
-while 1:
-
-  for x in range(300):
-    print("Speeding up " + str(x))
-    rpwm.ChangeDutyCycle(x)
-    time.sleep(0.15)
-
-  time.sleep(5)
-
-  for x in range(300):
-    print("Slowing down " + str(x))
-    rpwm.ChangeDutyCycle(300-x)
-    time.sleep(0.15)
+try:
+    while True:
+        rpwm.start(100)  # duty cycle of 100%
+except KeyboardInterrupt:
+    pass
+rpwm.stop()
+GPIO.cleanup()
