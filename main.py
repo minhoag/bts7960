@@ -27,14 +27,14 @@ rpwm.start(0)
 
 while 1:
 
-  for x in range(100):
+  for x in range(300):
     print("Speeding up " + str(x))
     rpwm.ChangeDutyCycle(x)
-    time.sleep(0.25)
+    time.sleep(0.15)
 
   time.sleep(5)
 
-  for x in range(100):
+  for x in range(300):
     print("Slowing down " + str(x))
-    rpwm.ChangeDutyCycle(100-x)
-    time.sleep(0.25)
+    rpwm.ChangeDutyCycle(300-x)
+    time.sleep(0.15)
