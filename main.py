@@ -18,6 +18,8 @@ GPIO.setup(R_EN, GPIO.OUT)
 GPIO.output(R_EN, True)
 rpwm= GPIO.PWM(RPWM, 100)
 
+print("Running...")
+
 try:
     while True:
         rpwm.start(100)  # duty cycle of 100%
