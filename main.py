@@ -1,87 +1,47 @@
-import RPi.GPIO as gpio
+import RPi.GPIO as GPIO
 import time
 
-def main():
-    #Create an instance of the drivers
-    drivers = Drivers()
-    #Test all of the functions
-    drivers.Test_All()
-    #Stop the motors
-    drivers.Stop()
-
-class Drivers():
-    def __init__(self):
-        
-        #Enable forward motor on the drivers
-        self.D1_R_EN = 13
-        #Enable revers motor on the drivers
-        self.D1_L_EN = 6
-        #Forward & Backward for Driver 1
-        self.D1_RPWM = 26
-        self.D1_LPWM = 19
-
-#       Define all parameters for the drivers
-        self.GPIO_PARAMETERS()
-        self.rpwm_D1 = gpio.PWM(self.D1_RPWM, 100)
-        self.lpwm_D1 = gpio.PWM(self.D1_LPWM, 100)
-        self.rpwm_D1.start(0)
-        self.lpwm_D1.start(0)        
+GPIO.setwarnings(False)
 
 
+RPWM = 26  # GPIO pin 19 to the RPWM on the BTS7960
+LPWM = 19  # GPIO pin 26 to the LPWM on the BTS7960
 
-    def GPIO_PARAMETERS(self):
-        gpio.setmode(gpio.BCM)
-        gpio.setwarnings(False)
-        #Set all of our pins to output
-        ##############################
-        #Enable the DRIVER 1 PINS
-        gpio.setup(self.D1_LPWM, gpio.OUT)
-        gpio.setup(self.D1_RPWM, gpio.OUT)
-        gpio.setup(self.D1_L_EN, gpio.OUT)
-        gpio.setup(self.D1_R_EN, gpio.OUT)
-
-        #Enable Left & Right mpvement
-        #DRIVER 1
-        gpio.output(self.D1_L_EN, True)
-        gpio.output(self.D1_R_EN, True)
+# For enabling "Left" and "Right" movement
+L_EN = 6  # connect GPIO pin 20 to L_EN on the BTS7960
+R_EN = 13  # connect GPIO pin 21 to R_EN on the BTS7960
 
 
-    def Backward(self, speed):
-        self.rpwm_D1.ChangeDutyCycle(speed)
-        #time.sleep(.15)
-        #self.rpwm_D1.ChangeDutyCycle(0)
-        #self.rpwm_D2.ChangeDutyCycle(0)
-        
-           
-    #def Rotate_Right(self):
-        #self.rpwm_D2.ChangeDutyCycle(50)
-        #time.sleep(.15)
-        #self.rpwm_D2.ChangeDutyCycle(0)
-        
-    
-    #def Rotate_Left(self):
-        #self.rpwm_D1.ChangeDutyCycle(50)
-        #time.sleep(.15)
-        #self.rpwm_D1.ChangeDutyCycle(0)
-        
-        
-    def Forward(self,speed):
-        self.lpwm_D1.ChangeDutyCycle(speed)
-        #time.sleep(.15)
-        #self.lpwm_D1.ChangeDutyCycle(0)
-        #self.lpwm_D2.ChangeDutyCycle(0)
+# Set all of our PINS to output
+GPIO.setup(RPWM, GPIO.OUT)
+GPIO.setup(LPWM, GPIO.OUT)
+GPIO.setup(L_EN, GPIO.OUT)
+GPIO.setup(R_EN, GPIO.OUT)
 
-   
-        
-    def Stop(self):
-        self.lpwm_D1.ChangeDutyCycle(0)
-        self.rpwm_D1.ChangeDutyCycle(0)
-        time.sleep(.15)
-    
 
-    def Test_All(self):
-        print("Testing backward movement")
-        self.Backward()
-        print("Testing Forward movement")
-        self.Forward()
-        print("Testing Left movement")
+# Enable "Left" and "Right" movement on the HBRidge
+GPIO.output(R_EN, True)
+GPIO.output(L_EN, True)
+
+
+rpwm= GPIO.PWM(RPWM, 100)
+lpwm= GPIO.PWM(LPWM, 100)
+
+rpwm.ChangeDutyCycle(0)
+
+rpwm.start(0)
+
+while 1:
+
+  for x in range(100):
+    print("Speeding up " + str(x))
+    rpwm.ChangeDutyCycle(x)
+    time.sleep(0.25)
+
+  time.sleep(5)
+
+  for x in range(100):
+
+    print("Slowing down " + str(x))
+    rpwm.ChangeDutyCycle(100-x)
+    time.sleep(0.25)
