@@ -14,21 +14,35 @@ GPIO.setup(LPWM, GPIO.OUT)
 GPIO.setup(R_EN, GPIO.OUT)
 GPIO.setup(L_EN, GPIO.OUT)
 
-# Initialize PWM
-pwm_forward = GPIO.PWM(RPWM, 1000)  # Set frequency to 1kHz
-pwm_backward = GPIO.PWM(LPWM, 1000)  # Set frequency to 1kHz
-GPIO.output(R_EN, GPIO.HIGH)
-GPIO.output(L_EN, GPIO.LOW)
-GPIO.output(RPWM, GPIO.HIGH)
-time.sleep(2)
-GPIO.output(RPWM, GPIO.LOW)
+def motor_forward(speed):
+    GPIO.output(R_EN, GPIO.HIGH)
+    GPIO.output(L_EN, GPIO.LOW)
+    pwm_r.ChangeDutyCycle(speed)
+    pwm_l.ChangeDutyCycle(0)
+
+def motor_backward(speed):
+    GPIO.output(R_EN, GPIO.LOW)
+    GPIO.output(L_EN, GPIO.HIGH)
+    pwm_r.ChangeDutyCycle(0)
+    pwm_l.ChangeDutyCycle(speed)
+
+def motor_stop():
+    GPIO.output(R_EN, GPIO.LOW)
+    GPIO.output(L_EN, GPIO.LOW)
+    pwm_r.ChangeDutyCycle(0)
+    pwm_l.ChangeDutyCycle(0)
 
 print('Running..')
 
 try:
     while True:
-        pwm_forward.start(100)
+        motor_forward(50)  # Run motor forward at 50% speed
+        time.sleep(5)
+        motor_stop()
+        time.sleep(2)
+        motor_backward(50)  # Run motor backward at 50% speed
+        time.sleep(5)
+        motor_stop()
+        time.sleep(2)
 except KeyboardInterrupt:
-    pwm_forward.stop()
-    GPIO.cleanup()
     pass
