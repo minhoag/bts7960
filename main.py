@@ -2,17 +2,23 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitions
-RPWM = 18  # Forward PWM
-LPWM = 19  # Backward PWM
-R_EN = 20  # Forward Enable
-L_EN = 21  # Backward Enable
+RPWM = 12  # Forward PWM
+LPWM = 24  # Backward PWM
+R_EN = 21  # Forward Enable
+L_EN = 22  # Backward Enable
 
 # Pin Setup
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(RPWM, GPIO.OUT)
 GPIO.setup(LPWM, GPIO.OUT)
 GPIO.setup(R_EN, GPIO.OUT)
 GPIO.setup(L_EN, GPIO.OUT)
+
+# PWM Setup
+pwm_r = GPIO.PWM(RPWM, 1000)
+pwm_l = GPIO.PWM(LPWM, 1000)
+pwm_r.start(0)
+pwm_l.start(0)
 
 def motor_forward(speed):
     GPIO.output(R_EN, GPIO.HIGH)
