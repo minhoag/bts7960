@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitions
-RPWM = 12  # Forward PWM
+RPWM = 23  # Forward PWM
 LPWM = 24  # Backward PWM
 R_EN = 21  # Forward Enable
 L_EN = 22  # Backward Enable
